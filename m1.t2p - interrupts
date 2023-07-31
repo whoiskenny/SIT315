@@ -1,0 +1,31 @@
+const int sensorPin = 4;
+const int ledPin = 13;
+
+volatile int sensorState = 0;
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+
+  attachInterrupt(digitalPinToInterrupt(sensorPin), sensorInterrupt, CHANGE);
+}
+
+void loop()
+{
+  // empty as the PIR sensor is handled with interrupts.
+}
+
+void sensorInterrupt()
+{
+  // Read the state of the sensor's digital input
+  sensorState = digitalRead(sensorPin);
+
+  // If sensor pin == HIGH, set LED on
+  if (sensorState == HIGH) {
+    digitalWrite(ledPin, HIGH);
+    Serial.println("PIR Sensor activated!");
+  } else {
+    digitalWrite(ledPin, LOW);
+  }
+}
